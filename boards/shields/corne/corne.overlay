@@ -1,0 +1,47 @@
+/ {
+    chosen {
+        zmk,encoder-0 = &encoder0;
+    };
+};
+
+/* Enable Bluetooth */
+&zephyr {
+    bt {
+        compatible = "zephyr,bt";
+    };
+};
+
+/* Enable battery/power support */
+&power {
+    status = "okay";
+};
+
+/ {
+    leds {
+        compatible = "gpio-leds";
+        caps_lock_led: caps_lock_led {
+            gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+        };
+    };
+};
+
+/* Nice!View display */
+&i2c1 {
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
+    
+    nice_view: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>;
+        height = <32>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <31>;
+        segment-remap;
+        com-invert;
+        i2c-max-frequency = <I2C_BITRATE_FAST>;
+        reset-gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
+    };
+};
