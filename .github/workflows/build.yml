@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Zephyr and ZMK
-        uses: zmkfirmware/zmk-build-action@main
+        uses: zmkfirmware/zmk-build-action@v1   # Use the stable v1 release instead of @main
         with:
           board: ${{ matrix.board }}
           shield: ${{ matrix.shield }}
