@@ -1,35 +1,6 @@
-name: Build firmware
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+name: Build ZMK firmware
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        shield:
-          - corne_left nice_view_adapter nice_view
-          - corne_right nice_view_adapter nice_view
-        board:
-          - nice_nano_v2
-
-    steps:
-      - name: Checkout configuration repo
-        uses: actions/checkout@v3
-
-      - name: Set up Zephyr and ZMK
-        uses: zmkfirmware/zmk-build-action@v1
-        with:
-          board: ${{ matrix.board }}
-          shield: ${{ matrix.shield }}
-        continue-on-error: true  # This will let the workflow continue if one build fails
-
-      - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.shield }}-${{ matrix.board }}
-          path: build/zephyr/zmk.uf2
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
